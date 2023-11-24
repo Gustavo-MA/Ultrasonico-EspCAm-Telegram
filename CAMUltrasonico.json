@@ -1,0 +1,348 @@
+[
+    {
+        "id": "f39235840e567d75",
+        "type": "tab",
+        "label": "CAMUltrasonico",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "063ce034257fd1f1",
+        "type": "mqtt in",
+        "z": "f39235840e567d75",
+        "name": "",
+        "topic": "FCAeI/mqtt/GMA/Ultrasonico",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "dbb2841f278f706f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 220,
+        "y": 200,
+        "wires": [
+            [
+                "471c802cade49471"
+            ]
+        ]
+    },
+    {
+        "id": "471c802cade49471",
+        "type": "json",
+        "z": "f39235840e567d75",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 460,
+        "y": 200,
+        "wires": [
+            [
+                "ca68f617ac865178"
+            ]
+        ]
+    },
+    {
+        "id": "ca68f617ac865178",
+        "type": "function",
+        "z": "f39235840e567d75",
+        "name": "Distancia",
+        "func": "msg.payload=msg.payload.dist;\nmsg.topic=\"Distancia\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 200,
+        "wires": [
+            [
+                "b56d1a652b898ecf",
+                "8e20024de1bbb75a",
+                "bcd7c8cfd2820e85"
+            ]
+        ]
+    },
+    {
+        "id": "b56d1a652b898ecf",
+        "type": "ui_gauge",
+        "z": "f39235840e567d75",
+        "name": "Distancia",
+        "group": "614492e68c62c755",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Distancia:",
+        "label": " cm",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "400",
+        "colors": [
+            "#ef2929",
+            "#e6e600",
+            "#8ae234"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 860,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "8e20024de1bbb75a",
+        "type": "ui_chart",
+        "z": "f39235840e567d75",
+        "name": "Historico Distancia",
+        "group": "614492e68c62c755",
+        "order": 1,
+        "width": "6",
+        "height": "6",
+        "label": "Historico Distancia",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 940,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cd649b54d453a399",
+        "type": "ui_template",
+        "z": "f39235840e567d75",
+        "group": "614492e68c62c755",
+        "name": "ESP32-CAM1",
+        "order": 7,
+        "width": "0",
+        "height": "0",
+        "format": "<iframe id=\"Video\" title=\"Video\" width=\"250\" height=\"190\" src=\"http://192.168.0.6:81/stream\">\n</iframe>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 180,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bcd7c8cfd2820e85",
+        "type": "http request",
+        "z": "f39235840e567d75",
+        "name": "",
+        "method": "GET",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "http://192.168.0.6/capture",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 890,
+        "y": 500,
+        "wires": [
+            [
+                "82533ad6aab895d4"
+            ]
+        ]
+    },
+    {
+        "id": "82533ad6aab895d4",
+        "type": "file",
+        "z": "f39235840e567d75",
+        "name": "",
+        "filename": "/home/gustavo/Desktop/foto/fotoesp32CAM.jpg",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 1220,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "725a458f657feb61",
+        "type": "function",
+        "z": "f39235840e567d75",
+        "name": "function 8",
+        "func": "msg.payload=\n{\n    \"chatId\": 6239367736,\n    \"type\":\"photo\",\n    \"content\": msg.payload\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 700,
+        "wires": [
+            [
+                "66af05ae42c217c6",
+                "ccf9fd19e0cfa298"
+            ]
+        ]
+    },
+    {
+        "id": "66af05ae42c217c6",
+        "type": "debug",
+        "z": "f39235840e567d75",
+        "name": "debug 20",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "ccf9fd19e0cfa298",
+        "type": "telegram sender",
+        "z": "f39235840e567d75",
+        "name": "",
+        "bot": "08ce76143b1dad80",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1030,
+        "y": 700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2efe622f33fc6c08",
+        "type": "watch",
+        "z": "f39235840e567d75",
+        "name": "",
+        "files": "/home/gustavo/Desktop/foto/fotoesp32CAM.jpg",
+        "recursive": "",
+        "x": 780,
+        "y": 600,
+        "wires": [
+            [
+                "725a458f657feb61"
+            ]
+        ]
+    },
+    {
+        "id": "7fdca5a196eb320e",
+        "type": "comment",
+        "z": "f39235840e567d75",
+        "name": "Se lee la foto y seenvia a telegram",
+        "info": "",
+        "x": 260,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "dbb2841f278f706f",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "614492e68c62c755",
+        "type": "ui_group",
+        "name": "Ultrasonico + Camara",
+        "tab": "49292e14db4b72ee",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "08ce76143b1dad80",
+        "type": "telegram bot",
+        "botname": "prueba_servo_bot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "49292e14db4b72ee",
+        "type": "ui_tab",
+        "name": "CAM+Ultrasonico",
+        "icon": "dashboard",
+        "order": 16,
+        "disabled": false,
+        "hidden": false
+    }
+]
